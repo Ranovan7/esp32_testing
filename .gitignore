@@ -1,0 +1,9 @@
+jwt-key*
+.env
+venv/
+LICENSE
+*__pycache__
+.python-version
+.travis.yml
+pub_ip.txt
+migrations/*

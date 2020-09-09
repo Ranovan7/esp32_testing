@@ -1,0 +1,19 @@
+{% extends 'master/base.html' %}
+
+{% set title = "Test" %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ message }}</h1>
+    <h2>{{ followup }}</h2>
+</div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/id.js') }}"></script>
+{% endblock %}
