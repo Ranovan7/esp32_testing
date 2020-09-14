@@ -40,7 +40,7 @@ def test():
                 "data": {
                     "serial_number": sn,
                     "sampling": sampling,
-                    "image_url": img_file,
+                    "image_url": url_for('static', filename=f"images/test/{file_name}"),
                     "result": ocr_scanning['ParsedResults'][0]['ParsedText']
                 }
             }
