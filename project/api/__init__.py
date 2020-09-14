@@ -28,8 +28,11 @@ def test():
             img_file = f"{app.config['UPLOAD_FOLDER']}{file_name}"
 
             imgdata = base64.b64decode(imageStr)
-            with open(img_file, 'w') as f:
+            with open(img_file, 'wb') as f:
+                # overwrite file
+                f.seek(0)
                 f.write(imgdata)
+                f.truncate()
 
             ocr_scanning = ocr_space_file(filename=img_file, api_key=app.config['OCR_SPACE_API_KEY'])
 
