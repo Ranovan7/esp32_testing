@@ -8,12 +8,80 @@
 
 {% block content %}
 <div class="container">
-    <h1>{{ message }}</h1>
-    <h2>{{ followup }}</h2>
+    <div>
+        <h5 id="device-sn">test-device</h5>
+        <p><small>Click reset button on the esp32cam device to send new image</small></p>
+        <h5 id="connection-status"></h5>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group text-center">
+                <img class="img-fluid" src="{{ url_for('static', filename='images/placeholder.jpg') }}" id="image">
+            </div>
+            <hr>
+        </div>
+        <div class="col-md-6">
+            <div id="result-card">
+                <h6>
+                    Upload Status :
+                    <span class="badge badge-secondary" id="status">waiting</span>
+                </h6>
+                <div class="form-group">
+                    <label>Upload Message</label>
+                    <textarea class="form-control" id="message" rows="2" readonly>waiting</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Upload Time</label>
+                    <input type="text" class="form-control" id="sampling" value="waiting" readonly>
+                </div>
+                <div class="form-group">
+                    <label>OCR Results</label>
+                    <textarea class="form-control" id="result" rows="5" readonly>waiting</textarea>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
 {% block js %}
     <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/id.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function(){
+            let sn = `test-device`;
+
+            let socket_url = 'http://' + document.domain + ':' + location.port + '/test';
+            $('#log').append(`<p>Trying to Connect to ${socket_url}</p>`);
+
+            let socket = io.connect(socket_url);
+            socket.on('connect_error', function(){
+                document.getElementById('connection-status').innerHTML = `<span class="badge badge-danger">Socket Disconnected<span>`;
+            });
+            socket.on('connect', function(){
+                document.getElementById('connection-status').innerHTML = `<span class="badge badge-success">Socket Connected<span>`;
+            });
+            socket.on(`status-${sn}`, function(msg) {
+                // update status
+                document.getElementById("status").innerHTML = msg.status;
+                if (msg.status == "success") {
+                    document.getElementById("status").className = "badge badge-success";
+                } else if (msg.status == "failed") {
+                    document.getElementById("status").className = "badge badge-warning";
+                    document.getElementById("result").value = "no image uploaded";
+                } else {
+                    document.getElementById("status").className = "badge badge-danger";
+                    document.getElementById("result").value = "no image uploaded";
+                }
+
+                // update message
+                document.getElementById("message").value = msg.message;
+
+                // update upload date
+                document.getElementById("sampling").value = `${moment(msg.data.sampling).format('LLLL')}`;
+            });
+        });
+    </script>
 {% endblock %}

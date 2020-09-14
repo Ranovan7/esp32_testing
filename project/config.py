@@ -8,6 +8,7 @@ database_name = os.environ.get('DATABASE_NAME', 'flask_jwt_auth')
 class BaseConfig:
     """Base configuration."""
     SECRET_KEY = os.environ.get('SECRET_KEY', 'my_precious')
+    OCR_SPACE_API_KEY = os.environ.get('OCR_SPACE_API_KEY', 'my_precious')
     DEBUG = False
     BCRYPT_LOG_ROUNDS = 13
     SQLALCHEMY_TRACK_MODIFICATIONS = False
