@@ -7,7 +7,7 @@ from project.helpers import ocr_space_file
 bp = Blueprint('api', __name__)
 
 
-@bp.route('/test/upload', methods=['GET'])
+@bp.route('/test/upload', methods=['POST'])
 def test():
     """
     Test ESP32 Upload
@@ -16,7 +16,7 @@ def test():
     try:
         post_data = request.get_json()
 
-        sn = request.values.get('device', "")  # post_data.get('device', "")
+        sn = post_data.get('device', "")
         sampling = post_data.get('sampling', "")
         if not sampling:
             sampling = datetime.datetime.utcnow()
@@ -26,15 +26,12 @@ def test():
         if imageStr:
             file_name = f"test-{sn}.jpg"
             img_file = f"{app.config['UPLOAD_FOLDER']}{file_name}"
-            # print(file_name)
-            # img_file = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
 
             imgdata = base64.b64decode(imageStr)
             with open(img_file, 'wb') as f:
                 f.write(imgdata)
 
             ocr_scanning = ocr_space_file(filename=img_file, api_key=app.config['OCR_SPACE_API_KEY'])
-            # print(ocr_scanning['ParsedResults'][0]['ParsedText'])
 
             print("saving image !")
             result = {
