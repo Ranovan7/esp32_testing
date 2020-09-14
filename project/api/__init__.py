@@ -19,7 +19,7 @@ def test():
         sn = post_data.get('device', "")
         sampling = post_data.get('sampling', "")
         if not sampling:
-            sampling = datetime.datetime.utcnow()
+            sampling = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
         print(sampling)
 
         imageStr = post_data.get('image')
@@ -28,7 +28,7 @@ def test():
             img_file = f"{app.config['UPLOAD_FOLDER']}{file_name}"
 
             imgdata = base64.b64decode(imageStr)
-            with open(img_file, 'wb') as f:
+            with open(img_file, 'w') as f:
                 f.write(imgdata)
 
             ocr_scanning = ocr_space_file(filename=img_file, api_key=app.config['OCR_SPACE_API_KEY'])
@@ -62,7 +62,7 @@ def test():
             "data": {
                 "image_url": url_for('static', filename="images/placeholder.jpg"),
                 "result": None,
-                "sampling": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
+                "sampling": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
             }
         }
     if sn:
