@@ -71,7 +71,6 @@
                 if (msg.status == "success") {
                     document.getElementById("status").className = "badge badge-success";
                     document.getElementById("result").value = msg.data.result;
-                    document.getElementById("image").src = msg.data.image_url;
                 } else if (msg.status == "failed") {
                     document.getElementById("status").className = "badge badge-warning";
                     document.getElementById("result").value = "no image uploaded";
@@ -85,6 +84,9 @@
 
                 // update upload date
                 document.getElementById("sampling").value = `${moment(msg.data.sampling).format('LLLL')}`;
+
+                // update image
+                document.getElementById("image").src = msg.data.image_url;
             });
         });
     </script>
