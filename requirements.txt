@@ -13,8 +13,6 @@ Flask-Migrate==2.0.2
 Flask-Script==2.0.5
 flask-socketio==4.3.1
 Flask-SQLAlchemy==2.1
-gevent==20.6.2
-gevent-websocket==0.10.1
 itsdangerous==0.24
 gunicorn==19.9.0
 Jinja2==2.8
