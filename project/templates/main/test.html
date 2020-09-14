@@ -86,7 +86,7 @@
                 document.getElementById("sampling").value = `${moment(msg.data.sampling).format('LLLL')}`;
 
                 // update image
-                document.getElementById("image").src = msg.data.image_url + '?' + moment().format('l');
+                document.getElementById("image").src = msg.data.image_url + '?' + moment().format();
             });
         });
     </script>
