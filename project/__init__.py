@@ -8,7 +8,7 @@ from flask_socketio import SocketIO
 from flask_cors import CORS
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = f"{os.getcwd()}/apps/static/images/test/"
+app.config['UPLOAD_FOLDER'] = f"{os.getcwd()}/project/static/images/test/"
 CORS(app)
 socketio = SocketIO(app, async_mode='eventlet')
 
